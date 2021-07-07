@@ -209,10 +209,10 @@ void Video::update() {
   };
 
   const uint32_t hcolor[16] = {                                                 // the high res colors (light & dark levels)
-  	0xFF000000, 0xFF31C090, 0xFFAD6E7E, 0xFFFFFFFF,
-  	0xFF000000, 0xFF156CEA, 0xFFE4A856, 0xFFFFFFFF,
-  	0xFF000000, 0xFF56373f, 0xFF196048, 0xFFFFFFFF,
-  	0xFF000000, 0xFF72542B, 0xFF0A3675, 0xFFFFFFFF
+    0xFF000000, 0xFF31C090, 0xFFAD6E7E, 0xFFFFFFFF,
+    0xFF000000, 0xFF156CEA, 0xFFE4A856, 0xFFFFFFFF,
+    0xFF000000, 0xFF56373f, 0xFF196048, 0xFFFFFFFF,
+    0xFF000000, 0xFF72542B, 0xFF0A3675, 0xFFFFFFFF
   };
 
   const uint32_t dhcolor[16] = {
@@ -223,99 +223,99 @@ void Video::update() {
   };
 
   const uint16_t offsetGR[24] = {                                               // base addresses for each line in TEXT or GR
-  	0x000, 0x080, 0x100, 0x180, 0x200, 0x280, 0x300, 0x380,                     // lines 0-7
-  	0x028, 0x0A8, 0x128, 0x1A8, 0x228, 0x2A8, 0x328, 0x3A8,                     // lines 8-15
-  	0x050, 0x0D0, 0x150, 0x1D0, 0x250, 0x2D0, 0x350, 0x3D0                      // lines 16-23
+    0x000, 0x080, 0x100, 0x180, 0x200, 0x280, 0x300, 0x380,                     // lines 0-7
+    0x028, 0x0A8, 0x128, 0x1A8, 0x228, 0x2A8, 0x328, 0x3A8,                     // lines 8-15
+    0x050, 0x0D0, 0x150, 0x1D0, 0x250, 0x2D0, 0x350, 0x3D0                      // lines 16-23
   };
 
   const uint16_t offsetHGR[192] = {                                             // base addresses for each line in HGR
-  	0x0000, 0x0400, 0x0800, 0x0C00, 0x1000, 0x1400, 0x1800, 0x1C00,             // lines 0-7
-  	0x0080, 0x0480, 0x0880, 0x0C80, 0x1080, 0x1480, 0x1880, 0x1C80,             // lines 8-15
-  	0x0100, 0x0500, 0x0900, 0x0D00, 0x1100, 0x1500, 0x1900, 0x1D00,             // lines 16-23
-  	0x0180, 0x0580, 0x0980, 0x0D80, 0x1180, 0x1580, 0x1980, 0x1D80,
-  	0x0200, 0x0600, 0x0A00, 0x0E00, 0x1200, 0x1600, 0x1A00, 0x1E00,
-  	0x0280, 0x0680, 0x0A80, 0x0E80, 0x1280, 0x1680, 0x1A80, 0x1E80,
-  	0x0300, 0x0700, 0x0B00, 0x0F00, 0x1300, 0x1700, 0x1B00, 0x1F00,
-  	0x0380, 0x0780, 0x0B80, 0x0F80, 0x1380, 0x1780, 0x1B80, 0x1F80,
-  	0x0028, 0x0428, 0x0828, 0x0C28, 0x1028, 0x1428, 0x1828, 0x1C28,
-  	0x00A8, 0x04A8, 0x08A8, 0x0CA8, 0x10A8, 0x14A8, 0x18A8, 0x1CA8,
-  	0x0128, 0x0528, 0x0928, 0x0D28, 0x1128, 0x1528, 0x1928, 0x1D28,
-  	0x01A8, 0x05A8, 0x09A8, 0x0DA8, 0x11A8, 0x15A8, 0x19A8, 0x1DA8,
-  	0x0228, 0x0628, 0x0A28, 0x0E28, 0x1228, 0x1628, 0x1A28, 0x1E28,
-  	0x02A8, 0x06A8, 0x0AA8, 0x0EA8, 0x12A8, 0x16A8, 0x1AA8, 0x1EA8,
-  	0x0328, 0x0728, 0x0B28, 0x0F28, 0x1328, 0x1728, 0x1B28, 0x1F28,
-  	0x03A8, 0x07A8, 0x0BA8, 0x0FA8, 0x13A8, 0x17A8, 0x1BA8, 0x1FA8,
-  	0x0050, 0x0450, 0x0850, 0x0C50, 0x1050, 0x1450, 0x1850, 0x1C50,
-  	0x00D0, 0x04D0, 0x08D0, 0x0CD0, 0x10D0, 0x14D0, 0x18D0, 0x1CD0,
-  	0x0150, 0x0550, 0x0950, 0x0D50, 0x1150, 0x1550, 0x1950, 0x1D50,
-  	0x01D0, 0x05D0, 0x09D0, 0x0DD0, 0x11D0, 0x15D0, 0x19D0, 0x1DD0,
-  	0x0250, 0x0650, 0x0A50, 0x0E50, 0x1250, 0x1650, 0x1A50, 0x1E50,
-  	0x02D0, 0x06D0, 0x0AD0, 0x0ED0, 0x12D0, 0x16D0, 0x1AD0, 0x1ED0,             // lines 168-183
-  	0x0350, 0x0750, 0x0B50, 0x0F50, 0x1350, 0x1750, 0x1B50, 0x1F50,             // lines 176-183
-  	0x03D0, 0x07D0, 0x0BD0, 0x0FD0, 0x13D0, 0x17D0, 0x1BD0, 0x1FD0              // lines 184-191
+    0x0000, 0x0400, 0x0800, 0x0C00, 0x1000, 0x1400, 0x1800, 0x1C00,             // lines 0-7
+    0x0080, 0x0480, 0x0880, 0x0C80, 0x1080, 0x1480, 0x1880, 0x1C80,             // lines 8-15
+    0x0100, 0x0500, 0x0900, 0x0D00, 0x1100, 0x1500, 0x1900, 0x1D00,             // lines 16-23
+    0x0180, 0x0580, 0x0980, 0x0D80, 0x1180, 0x1580, 0x1980, 0x1D80,
+    0x0200, 0x0600, 0x0A00, 0x0E00, 0x1200, 0x1600, 0x1A00, 0x1E00,
+    0x0280, 0x0680, 0x0A80, 0x0E80, 0x1280, 0x1680, 0x1A80, 0x1E80,
+    0x0300, 0x0700, 0x0B00, 0x0F00, 0x1300, 0x1700, 0x1B00, 0x1F00,
+    0x0380, 0x0780, 0x0B80, 0x0F80, 0x1380, 0x1780, 0x1B80, 0x1F80,
+    0x0028, 0x0428, 0x0828, 0x0C28, 0x1028, 0x1428, 0x1828, 0x1C28,
+    0x00A8, 0x04A8, 0x08A8, 0x0CA8, 0x10A8, 0x14A8, 0x18A8, 0x1CA8,
+    0x0128, 0x0528, 0x0928, 0x0D28, 0x1128, 0x1528, 0x1928, 0x1D28,
+    0x01A8, 0x05A8, 0x09A8, 0x0DA8, 0x11A8, 0x15A8, 0x19A8, 0x1DA8,
+    0x0228, 0x0628, 0x0A28, 0x0E28, 0x1228, 0x1628, 0x1A28, 0x1E28,
+    0x02A8, 0x06A8, 0x0AA8, 0x0EA8, 0x12A8, 0x16A8, 0x1AA8, 0x1EA8,
+    0x0328, 0x0728, 0x0B28, 0x0F28, 0x1328, 0x1728, 0x1B28, 0x1F28,
+    0x03A8, 0x07A8, 0x0BA8, 0x0FA8, 0x13A8, 0x17A8, 0x1BA8, 0x1FA8,
+    0x0050, 0x0450, 0x0850, 0x0C50, 0x1050, 0x1450, 0x1850, 0x1C50,
+    0x00D0, 0x04D0, 0x08D0, 0x0CD0, 0x10D0, 0x14D0, 0x18D0, 0x1CD0,
+    0x0150, 0x0550, 0x0950, 0x0D50, 0x1150, 0x1550, 0x1950, 0x1D50,
+    0x01D0, 0x05D0, 0x09D0, 0x0DD0, 0x11D0, 0x15D0, 0x19D0, 0x1DD0,
+    0x0250, 0x0650, 0x0A50, 0x0E50, 0x1250, 0x1650, 0x1A50, 0x1E50,
+    0x02D0, 0x06D0, 0x0AD0, 0x0ED0, 0x12D0, 0x16D0, 0x1AD0, 0x1ED0,             // lines 168-183
+    0x0350, 0x0750, 0x0B50, 0x0F50, 0x1350, 0x1750, 0x1B50, 0x1F50,             // lines 176-183
+    0x03D0, 0x07D0, 0x0BD0, 0x0FD0, 0x13D0, 0x17D0, 0x1BD0, 0x1FD0              // lines 184-191
   };
 
 
   // HIGH RES GRAPHICS
-	if (!mmu->TEXT && mmu->HIRES && !mmu->DHIRES) {
+  if (!mmu->TEXT && mmu->HIRES && !mmu->DHIRES) {
     gfxmode = 40;
     uint8_t colorIdx;                                                           // index to the color array
-		uint16_t word;
-		uint8_t bits[16], bit, pbit, colorSet, even;
+    uint16_t word;
+    uint8_t bits[16], bit, pbit, colorSet, even;
     int vRamBase = 0x2000 + mmu->PAGE2 * 0x2000;
-		int endRaw = mmu->MIXED ? 160 : 192;
+    int endRaw = mmu->MIXED ? 160 : 192;
 
-		for (int line = 0; line < endRaw; line++) {                                 // for every line
-			for (int col = 0; col < 40; col += 2) {                                   // for every 7 horizontal dots
-				word = (uint16_t)(mmu->ram[vRamBase + offsetHGR[line] + col + 1]) << 8; // store the two next bytes into 'word'
-				word += mmu->ram[vRamBase + offsetHGR[line] + col];                     // in reverse order
+    for (int line = 0; line < endRaw; line++) {                                 // for every line
+      for (int col = 0; col < 40; col += 2) {                                   // for every 7 horizontal dots
+        word = (uint16_t)(mmu->ram[vRamBase + offsetHGR[line] + col + 1]) << 8; // store the two next bytes into 'word'
+        word += mmu->ram[vRamBase + offsetHGR[line] + col];                     // in reverse order
 
-				if (previousDots[line][col] != word) {                                  // check if this group of 7 dots need a redraw
+        if (previousDots[line][col] != word) {                                  // check if this group of 7 dots need a redraw
 
-					int x = col * 7;
-					even = 0;
+          int x = col * 7;
+          even = 0;
 
-					for (bit = 0; bit < 16; bit++)                                        // store all bits 'word' into 'bits'
-						bits[bit] = (word >> bit) & 1;
-					colorSet = bits[7] * 4;                                               // select the right color set
-					pbit = previousBit[line][col];                                        // the bit value of the left dot
-					bit = 0;                                                              // starting at 1st bit of 1st byte
+          for (bit = 0; bit < 16; bit++)                                        // store all bits 'word' into 'bits'
+            bits[bit] = (word >> bit) & 1;
+          colorSet = bits[7] * 4;                                               // select the right color set
+          pbit = previousBit[line][col];                                        // the bit value of the left dot
+          bit = 0;                                                              // starting at 1st bit of 1st byte
 
-					while (bit < 15) {                                                    // until we reach bit7 of 2nd byte
-						if (bit == 7) {                                                     // moving into the second byte
-							colorSet = bits[15] * 4;                                          // update the color set
-							bit++;                                                            // skip bit 7
-						}
+          while (bit < 15) {                                                    // until we reach bit7 of 2nd byte
+            if (bit == 7) {                                                     // moving into the second byte
+              colorSet = bits[15] * 4;                                          // update the color set
+              bit++;                                                            // skip bit 7
+            }
 
             colorIdx = even + colorSet + (bits[bit] << 1) + (pbit);
             screenPixels[line * 280 + x] =  hcolor[colorIdx];
 
-						x++;
-						pbit = bits[bit++];                                                 // proceed to the next pixel
-						even = even ? 0 : 8;                                                // one pixel every two is darker
-					}
+            x++;
+            pbit = bits[bit++];                                                 // proceed to the next pixel
+            even = even ? 0 : 8;                                                // one pixel every two is darker
+          }
 
-					previousDots[line][col] = word;                                       // update the video cache
-					if ((col < 37) && (previousBit[line][col + 2] != pbit)) {             // check color franging effect on the dot after
-						previousBit[line][col + 2] = pbit;                                  // set pbit and clear the
-						previousDots[line][col + 2] = -1;                                   // video cache for next dot
-					}
-				}                                                                       // if (previousDots[line][col] ...
-			}
-		}
-	}
+          previousDots[line][col] = word;                                       // update the video cache
+          if ((col < 37) && (previousBit[line][col + 2] != pbit)) {             // check color franging effect on the dot after
+            previousBit[line][col + 2] = pbit;                                  // set pbit and clear the
+            previousDots[line][col + 2] = -1;                                   // video cache for next dot
+          }
+        }                                                                       // if (previousDots[line][col] ...
+      }
+    }
+  }
 
   // DOUBLE HIGH RES GRAPHICS
-	else if (!mmu->TEXT && mmu->HIRES && mmu->DHIRES) {
+  else if (!mmu->TEXT && mmu->HIRES && mmu->DHIRES) {
     gfxmode = 80;
     // int vRamBase = 0x2000 + PAGE2 * 0x2000;
     int vRamBase = mmu->STORE80 ? 0x2000 : mmu->PAGE2 * 0x2000 + 0x2000;        // TODO : CHECK THIS !
-		int endRaw = mmu->MIXED ? 160 : 192;
+    int endRaw = mmu->MIXED ? 160 : 192;
     uint32_t color;
     uint32_t dword;
 
-		for (int line = 0; line < endRaw; line++) {
-			for (int col = 0, x = 0; col < 39; col+=2) {
+    for (int line = 0; line < endRaw; line++) {
+      for (int col = 0, x = 0; col < 39; col+=2) {
 
         int address = vRamBase + offsetHGR[line] + col;
 
@@ -336,55 +336,55 @@ void Video::update() {
             screenPixels80[offset2 + x] = color;
           }
         }
-			}
+      }
     }
-	}
+  }
 
-	// lOW RES GRAPHICS
-	else if (!mmu->TEXT && !mmu->HIRES && !mmu->DHIRES) {                         // and not in HIRES
+  // lOW RES GRAPHICS
+  else if (!mmu->TEXT && !mmu->HIRES && !mmu->DHIRES) {                         // and not in HIRES
     gfxmode = 40;
-		int vRamBase = mmu->PAGE2 * 0x0400 + 0x400;
-		int endRaw = mmu->MIXED ? 20 : 24;
+    int vRamBase = mmu->PAGE2 * 0x0400 + 0x400;
+    int endRaw = mmu->MIXED ? 20 : 24;
     uint32_t color;
-		for (int col = 0; col < 40; col++) {                                        // for each column
-			int x = col * 7;
-			for (int line = 0; line < endRaw; line++) {                               // for each row
+    for (int col = 0; col < 40; col++) {                                        // for each column
+      int x = col * 7;
+      for (int line = 0; line < endRaw; line++) {                               // for each row
 
-				glyph = mmu->ram[vRamBase + offsetGR[line] + col];                      // read video memory
+        glyph = mmu->ram[vRamBase + offsetGR[line] + col];                      // read video memory
 
         if (previousBlocks[line][col] != glyph) {                               // check if this block need a redraw
           previousBlocks[line][col] = glyph;
 
           int y = line * 8;                                                     // first block
-  				color = lcolor[glyph & 0x0F];                                         // first nibble
+          color = lcolor[glyph & 0x0F];                                         // first nibble
           for (int a=0; a<7; a++)
             for (int b=0; b<4; b++)
               screenPixels[(y+b) * 280 + x + a] =  color;
 
-  				y += 4;                                                               // second block
-  				color = lcolor[(glyph & 0xF0) >> 4];                                  // second nibble
+          y += 4;                                                               // second block
+          color = lcolor[(glyph & 0xF0) >> 4];                                  // second nibble
           for (int a=0; a<7; a++)
             for (int b=0; b<4; b++)
               screenPixels[(y+b) * 280 + x + a] =  color;
         }
-			}
-		}
-	}
+      }
+    }
+  }
 
   // DOUBLE lOW RES GRAPHICS
-	else if (!mmu->TEXT && !mmu->HIRES && mmu->DHIRES) {
+  else if (!mmu->TEXT && !mmu->HIRES && mmu->DHIRES) {
     gfxmode = 80;
     int vRamBase = mmu->PAGE2 * 0x0400 + 0x400;    // TODO : CHECK THIS !
-		int endRaw = mmu->MIXED ? 20 : 24;
+    int endRaw = mmu->MIXED ? 20 : 24;
     int x, y;
     uint32_t color;
-		for (int col = 0; col < 40; col++) {                                        // for each column
+    for (int col = 0; col < 40; col++) {                                        // for each column
       x = col * 14;
-			for (int line = 0; line < endRaw; line++) {                               // for each row
+      for (int line = 0; line < endRaw; line++) {                               // for each row
         y = line * 16;                                                          // first block
 
-				glyph = mmu->aux[vRamBase + offsetGR[line] + col];                      // read AUX video memory
-				color = lcolor[glyph & 0x0F];                                           // first nibble
+        glyph = mmu->aux[vRamBase + offsetGR[line] + col];                      // read AUX video memory
+        color = lcolor[glyph & 0x0F];                                           // first nibble
         for (int a=0; a<7; a++)
           for (int b=0; b<8; b++)
             screenPixels80[(y+b) * 560 + (x+a)] = color;
@@ -404,19 +404,19 @@ void Video::update() {
         for (int a=7; a<14; a++)
           for (int b=8; b<16; b++)
             screenPixels80[(y+b) * 560 + (x+a)] = color;
-			}
-		}
-	}
+      }
+    }
+  }
 
   // TEXT 40 COLUMNS
-	if (!mmu->COL80 && (mmu->TEXT || mmu->MIXED)) {
+  if (!mmu->COL80 && (mmu->TEXT || mmu->MIXED)) {
     gfxmode = 40;
     int vRamBase = mmu->PAGE2 * 0x0400 + 0x400;
-		int startRaw = mmu->TEXT ? 0 : 20;
-		for (int col = 0; col < 40; col++) {                                        // for each column
-			for (int line = startRaw; line < 24; line++) {                            // for each row
+    int startRaw = mmu->TEXT ? 0 : 20;
+    for (int col = 0; col < 40; col++) {                                        // for each column
+      for (int line = startRaw; line < 24; line++) {                            // for each row
 
-				glyph = mmu->ram[vRamBase + offsetGR[line] + col];                      // read video memory
+        glyph = mmu->ram[vRamBase + offsetGR[line] + col];                      // read video memory
 
         if (glyph > 0x7F) glyphAttr = A_NORMAL;                                 // is NORMAL ?
         else if (glyph < 0x40) glyphAttr = A_INVERSE;                           // is INVERSE ?
@@ -453,16 +453,16 @@ void Video::update() {
         }
       }
     }
-	}
+  }
 
   // TEXT 80 COLUMNS
-	else if (mmu->COL80 && (mmu->TEXT || mmu->MIXED)) {
+  else if (mmu->COL80 && (mmu->TEXT || mmu->MIXED)) {
     gfxmode = 80;
     int startRaw = mmu->TEXT ? 0 : 20;
     int vRamBase = 0x0400; // + PAGE2 * 0x400;
 
-		for (int col = 0; col < 40; col++) {                                        // for each column
-			for (int line = startRaw; line < 24; line++) {                            // for each row
+    for (int col = 0; col < 40; col++) {                                        // for each column
+      for (int line = startRaw; line < 24; line++) {                            // for each row
         glyph = mmu->ram[vRamBase + offsetGR[line] + col];                      // read video memory in Main memory
 
         if (glyph > 0x7F) glyphAttr = A_NORMAL;                                 // is NORMAL ?
@@ -544,7 +544,7 @@ void Video::update() {
         }
       }
     }
-	}
+  }
 
   // update ram & aux HEATMAPS (fade out green and red components)
   for (int address=0; address<65536; address++){
