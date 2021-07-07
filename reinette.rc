@@ -1,0 +1,24 @@
+1 ICON "reinette.ico"
+1 VERSIONINFO
+FILEVERSION     0,7,1,0
+PRODUCTVERSION  0,7,0,0
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "040904E4"
+    BEGIN
+      VALUE "CompanyName", "Arthur Ferreira"
+      VALUE "FileDescription", "Apple II emulator"
+      VALUE "FileVersion", "0.7.1.0"
+      VALUE "InternalName", "reinette"
+      VALUE "LegalCopyright", "Arthur Ferreira"
+      VALUE "OriginalFilename", "reinette.exe"
+      VALUE "ProductName", "reinette"
+      VALUE "ProductVersion", "0.7"
+    END
+  END
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", 0x409, 1252
+  END
+END
