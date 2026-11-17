@@ -35,6 +35,7 @@ typedef struct Drive_t {
   bool     writeMode;                                                           // writes to file are not implemented
   uint8_t  track;                                                               // current track position
   uint16_t nibble;                                                              // ptr to nibble under head position
+  bool     dskFormat;                                                           // image was loaded from a .dsk (143360 bytes) file
 } Drive;
 
 

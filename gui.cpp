@@ -133,7 +133,7 @@ void Gui::getInputs() {
     if (event.type == SDL_DROPFILE) {                                           // user dropped a file
       char *filename = event.drop.file;                                         // get full pathname
       if (!disk->load(filename, alt))                                           // if ALT : drv 1 else drv 0
-        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Load", "Not a valid nib file", NULL);
+        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Load", "Not a valid nib or dsk file", NULL);
       SDL_free(filename);                                                       // free filename memory
       paused = false;                                                           // might already be the case
       if (!(alt || ctrl)) {                                                     // unless ALT or CTRL were
@@ -520,7 +520,8 @@ int Gui::update() {
       }
       ImGui::SameLine();
       if (ImGui::Button("SAVE FLOPPY #1")) {
-        disk->save(0);
+        if (!disk->save(0))
+          SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Save", "Could not write the floppy image\n(no floppy, read only, or a non-standard track)", NULL);
       }
       ImGui::SameLine();
       if (ImGui::Button("EJECT FLOPPY #1")) {
@@ -548,7 +549,8 @@ int Gui::update() {
       }
       ImGui::SameLine();
       if (ImGui::Button("SAVE FLOPPY #2")) {
-        disk->save(1);
+        if (!disk->save(1))
+          SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Save", "Could not write the floppy image\n(no floppy, read only, or a non-standard track)", NULL);
       }
       ImGui::SameLine();
       if (ImGui::Button("EJECT FLOPPY #2")) {
