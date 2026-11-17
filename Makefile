@@ -94,8 +94,13 @@ endif
 all: $(EXE)
 	@echo Build complete for $(ECHO_MESSAGE)
 
+ifeq ($(OS), Windows_NT)
 $(EXE): $(OBJS) $(WIN32-RES)
 	$(CXX) -o $@ $^ $(CXXFLAGS) $(LIBS)
+else
+$(EXE): $(OBJS)
+	$(CXX) -o $@ $^ $(CXXFLAGS) $(LIBS)
+endif
 
 $(WIN32-RES): $(WIN32-RC)
 	windres -o $@ $^ -O coff
