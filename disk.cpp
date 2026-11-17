@@ -24,7 +24,40 @@
  */
 
 #include <stdio.h>
+#include <sys/stat.h>
+#include <unistd.h>
 #include "reinette.h"
+#include "gcr62.h"
+
+
+// writes data to path via a temp file + rename, so that a failure at any point
+// (disk full, process killed, power loss) never leaves a truncated image :
+// the original file is only replaced by the rename, which is atomic
+static int atomicWrite(const char *path, const void *data, size_t size) {
+  char tmp[420];
+  if ((size_t)snprintf(tmp, sizeof(tmp), "%s.reinette-tmp", path) >= sizeof(tmp))
+    return 0;                                                                    // path too long
+
+  struct stat st;
+  bool hadStat = (stat(path, &st) == 0);                                         // to keep the file mode
+
+  FILE *f = fopen(tmp, "wb");
+  if (!f) return 0;                                                              // could not create the temp file
+  size_t written = fwrite(data, 1, size, f);
+  int flushed = (fflush(f) == 0) && (fsync(fileno(f)) == 0);                     // get the data on the medium
+  if (written != size || !flushed || fclose(f) != 0) {
+    remove(tmp);                                                                 // release the ressource,
+    return 0;                                                                    // leave the original untouched
+  }
+
+  if (hadStat) chmod(tmp, st.st_mode & 07777);                                   // keep the original file mode
+  if (rename(tmp, path) != 0) {                                                  // the atomic replacement
+    remove(tmp);
+    return 0;
+  }
+  return 1;
+}
+
 
 Disk::Disk() {
   curDrv = 0;                                                                   // Current Drive - only one can be enabled at a time
@@ -35,8 +68,37 @@ Disk::Disk() {
 int Disk::load( char *path, int drive) {
   FILE *f = fopen(path, "rb");                                                  // open file in read binary mode
 
-  if (!f || fread(unit[drive].data, 1, 232960, f) != 232960)                    // load it into memory and check size
+  if (!f) return 0;
+
+  fseek(f, 0, SEEK_END);                                                        // dispatch on the image size
+  long size = ftell(f);
+  fseek(f, 0, SEEK_SET);
+
+  if (size == gcr62::NIB_FILE_BYTES) {                                          // 232960 : raw nibble image
+    if (fread(unit[drive].data, 1, gcr62::NIB_FILE_BYTES, f) != gcr62::NIB_FILE_BYTES) {
+      fclose(f);
+      return 0;
+    }
+    unit[drive].dskFormat = false;
+  }
+
+  else if (size == gcr62::DSK_FILE_BYTES) {                                     // 143360 : DOS 3.3 .dsk image, nibblelize it
+    static uint8_t dsk[gcr62::DSK_FILE_BYTES];
+    if (fread(dsk, 1, gcr62::DSK_FILE_BYTES, f) != gcr62::DSK_FILE_BYTES) {
+      fclose(f);
+      return 0;
+    }
+    for (int track = 0; track < gcr62::TRACKS; track++)
+      gcr62::encodeTrack(dsk + track * gcr62::DSK_TRACK_BYTES,
+                         unit[drive].data + track * gcr62::NIB_TRACK_BYTES, track);
+    unit[drive].dskFormat = true;
+  }
+
+  else {                                                                        // not a supported image
+    fclose(f);
     return 0;
+  }
+
   fclose(f);
 
   sprintf(unit[drive].pathName, "%s", path);                                    // update floppy image pathName record
@@ -66,15 +128,17 @@ int Disk::save(int drive) {
   if (!unit[drive].pathName[0]) return 0;                                       // no file loaded into drive
   if (unit[drive].readOnly) return 0;                                           // file is read only write no aptempted
 
-  FILE *f = fopen(unit[drive].pathName, "wb");
+  if (unit[drive].dskFormat) {                                                  // .dsk image : denibblelize each track
+    static uint8_t dsk[gcr62::DSK_FILE_BYTES];
+    for (int track = 0; track < gcr62::TRACKS; track++)
+      if (!gcr62::decodeTrack(unit[drive].data + track * gcr62::NIB_TRACK_BYTES,
+                              dsk + track * gcr62::DSK_TRACK_BYTES, track))
+        return 0;                                                               // damaged or non-standard track : never write a partial image
 
-  if (!f) return 0;                                                             // could not open the file in write overide binary
-  if (fwrite(unit[drive].data, 1, 232960, f) != 232960) {                       // failed to write the full file (hdd full ?)
-    fclose(f);                                                                  // release the ressource
-    return 0;
+    return atomicWrite(unit[drive].pathName, dsk, gcr62::DSK_FILE_BYTES);
   }
-  fclose(f);                                                                    // success, release the ressource
-  return 1;
+
+  return atomicWrite(unit[drive].pathName, unit[drive].data, 232960);
 }
 
 
@@ -82,6 +146,7 @@ int Disk::eject(int drive)   {
   unit[drive].fileName[0] = 0;
   unit[drive].pathName[0] = 0;
   unit[drive].readOnly = false;
+  unit[drive].dskFormat = false;
 
   for (int i=0; i<232960; i++)  // erase data
     unit[drive].data[i]=0;

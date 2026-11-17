@@ -46,7 +46,7 @@ Gui*       gui     = new Gui();
 int main(int argc, char *argv[]) {
 
   cpu->RST();
-  if (argc > 1) disk->load(argv[1], 0);                                         // load .nib in parameter into drive 0
+  if (argc > 1) disk->load(argv[1], 0);                                         // load .nib or .dsk in parameter into drive 0
   uint8_t tries = 0;                                                            // for disk ][ speed-up
 
   // main loop
